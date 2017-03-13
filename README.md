@@ -1,4 +1,4 @@
-# Nike+ API and AWS Athena
+# Nike+ API and Amazon Athena
 
 This is a simple script which uses the Nike+ API to retrieve RUNNING activities, update those activities with GPS coordinates (if applicable), writes the information in a multi-line, JSON formatted file, then uploads the file to an S3 bucket of your choice. 
 
