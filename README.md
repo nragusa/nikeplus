@@ -1,6 +1,6 @@
 # Nike+ API and Amazon Athena
 
-This is a simple script which uses the Nike+ API to retrieve RUNNING activities, update those activities with GPS coordinates (if applicable), writes the information in a multi-line, JSON formatted file, then uploads the file to an S3 bucket of your choice. 
+This is a simple script which uses the Nike+ API to retrieve RUNNING activities, update those activities with GPS coordinates (if applicable), writes the information in a single-line, JSON formatted file, then uploads the file to an S3 bucket of your choice. 
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ The following will grab the latest 3 runs from Nike+, gather GPS data for each o
 
 ## Optional: Query with Amazon Athena
 
-[Amazon Athena](https://aws.amazon.com/athena/) is an interactive, ad-hoc query service which makes it easy to query data stored in S3 using traditional ANSI SQL like syntax. With this data now stored in a multi-line, JSON formatted syntax, you can now query it using Amazon Athena. See the [Getting Started](https://docs.aws.amazon.com/athena/latest/ug/getting-started.html) to get going with Amazon Athena.
+[Amazon Athena](https://aws.amazon.com/athena/) is an interactive, ad-hoc query service which makes it easy to query data stored in S3 using traditional ANSI SQL like syntax. With this data now stored in a single-line, JSON formatted syntax, you can now query it using Amazon Athena. See the [Getting Started](https://docs.aws.amazon.com/athena/latest/ug/getting-started.html) to get going with Amazon Athena.
 
 Average number of miles by terrain:
 ```
