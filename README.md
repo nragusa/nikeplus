@@ -32,6 +32,31 @@ The following will grab the latest 3 runs from Nike+, gather GPS data for each o
 
 [Amazon Athena](https://aws.amazon.com/athena/) is an interactive, ad-hoc query service which makes it easy to query data stored in S3 using traditional ANSI SQL like syntax. With this data now stored in a single-line, JSON formatted syntax, you can now query it using Amazon Athena. See the [Getting Started](https://docs.aws.amazon.com/athena/latest/ug/getting-started.html) to get going with Amazon Athena.
 
+First you'll need to create a table with the data:
+```
+CREATE EXTERNAL TABLE IF NOT EXISTS running (
+    `status` string,
+    `links` array<struct<href:string, rel:string>>,
+    `tags` array<struct<tagValue:string, tagType:string>>,
+    `metricSummary` struct<fuel:string, distance:string, duration:string, calories:string, steps:string>,
+    `activityType` string,
+    `state` string,
+    `activityId` string,
+    `deviceType` string,
+    `gpsStart` struct<latitude:float, elevation:float, longitude:float>,
+    `gpsEnd` struct<latitude:float, elevation:float, longitude:float>,
+    `startTime` timestamp,
+    `city` string,
+    `activityTimeZone` string,
+    `postal` string
+)
+ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'
+WITH SERDEPROPERTIES (
+  'serialization.format' = '1'
+) LOCATION 's3://myS3Bucket/path/to/file'
+```
+Be sure to replace the location of the S3 bucket and file with your appropriate path. Once that query succeeds, you can start to query your run data. Some example queries are below:
+
 Average number of miles by terrain:
 ```
 SELECT count(tag.tagValue) AS count,

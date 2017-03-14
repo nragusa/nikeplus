@@ -74,7 +74,7 @@ def main():
             print 'Problem loading Nike response into JSON'
             sys.exit(1)
 
-    with open('running-etl.json', 'a') as running_etl_file:
+    with open(s3_key, 'a') as running_file:
         for run in run_data['data']:
             gps_start, gps_end = get_gps(run['activityId'], access_token)
             if gps_start['latitude'] != 0:
@@ -90,10 +90,10 @@ def main():
             run['gpsEnd'] = gps_end
             run['metricSummary']['distance'] = str(float(run['metricSummary']['distance'])
                                                    * KM_TO_MILES)
-            json.dump(run, running_etl_file)
-            running_etl_file.write('\n')
+            json.dump(run, running_file)
+            running_file.write('\n')
 
-    with open('running-etl.json', 'r') as running_file:
+    with open(s3_key, 'r') as running_file:
         s3_client = boto3.resource('s3')
         s3_client.Bucket(s3_bucket).put_object(Key=s3_key, Body=running_file)
 
