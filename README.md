@@ -22,10 +22,10 @@ pip install -r requirements.txt
 
 To execute the script, you'll need to pass the appropriate token, number of previous runs to capture, S3 bucket, and filename to store the data in. 
 
-The following will grab the latest 3 runs from Nike+, gather GPS data for each of the runs, write the run information to a local file, then upload it to the S3 bucket *myS3Bucket* with a key of *running.json*.
+The following will grab the latest 3 runs from Nike+, gather GPS data for each of the runs, write the run information to a local file called *local_running.json*, then upload it to the S3 bucket *myS3Bucket* with a key of *running.json*.
 
 ```
-./update.py --token iou23jk230sdfkj0a032kljasdf0 --runs 3 --bucket myS3Bucket --key running.json
+./update.py --token iou23jk230sdfkj0a032kljasdf0 --runs 3 --bucket myS3Bucket --key running.json --file local_running.json
 ```
 
 ## Optional: Query with Amazon Athena
