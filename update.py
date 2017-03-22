@@ -22,6 +22,7 @@ PARSER.add_argument("-t", "--token", help="nike access token", type=str, require
 PARSER.add_argument("-r", "--runs", help="number of runs back", type=int, required=True)
 PARSER.add_argument("-b", "--bucket", help="S3 bucket", type=str, required=True)
 PARSER.add_argument("-k", "--key", help="The S3 key for the file", type=str, required=True)
+PARSER.add_argument("-f", "--file", help="The file with running data stored locally", type=str, required=True)
 ARGS = PARSER.parse_args()
 KM_TO_MILES = 0.621371
 
@@ -57,6 +58,7 @@ def main():
     runs = ARGS.runs
     s3_bucket = ARGS.bucket
     s3_key = ARGS.key
+    local_file = ARGS.file
     url = ('https://api.nike.com/v1/me/sport/activities/RUNNING?count={}'
            '&access_token={}'.format(runs, access_token))
     try:
@@ -74,7 +76,7 @@ def main():
             print 'Problem loading Nike response into JSON'
             sys.exit(1)
 
-    with open(s3_key, 'a') as running_file:
+    with open(local_file, 'a') as running_file:
         for run in run_data['data']:
             gps_start, gps_end = get_gps(run['activityId'], access_token)
             if gps_start['latitude'] != 0:
@@ -93,7 +95,7 @@ def main():
             json.dump(run, running_file)
             running_file.write('\n')
 
-    with open(s3_key, 'r') as running_file:
+    with open(local_file, 'r') as running_file:
         s3_client = boto3.resource('s3')
         s3_client.Bucket(s3_bucket).put_object(Key=s3_key, Body=running_file)
 
